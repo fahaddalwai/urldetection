@@ -83,7 +83,7 @@ def letter_count(url):
 
 
 
-model  = load_model(r"urlmodel.h5")
+model  = load_model(r"C:\Users\dalwa\Desktop\Streamlit URL detection\urlmodel.h5")
 
 st.title('Paste the URL below to check whether it is malicious or not🔗')
 url = st.text_input("Input URL😊", "") 
@@ -116,15 +116,22 @@ if ok:
     })
 
      prediction=model.predict(userInput)
-     percentage=np.round(prediction[0][0]*100,2)
-
-     if(percentage>50):
-        st.error(f'This URL seems pretty shady!❌')
-        st.write(f"The probabilty of it being malicious is high: {percentage}%")
-     elif percentage<50:
-        st.success(f'This URL seems fine to us!✅')
-        st.write(f"The probabilty of it being malicious is low: {percentage}%")
+     prediction_class=prediction.argmax(axis=-1)
+     
+     if(prediction_class[0]==0):
+        st.success("This URL is safe! Go ahead and open it✔️")
+     elif(prediction_class[0]==1):
+        st.error("This URL is of defacement type. Don't open it❌")
+     elif(prediction_class[0]==2):
+        st.error("This URL is of phishing type. Don't open it❌")
      else:
-        st.write("We're unsure. Sorry about that")
+        st.error("This URL is of malware type. Don't open it❌")
+     st.write("Probabilty of the different types:")
 
+     final_table=pd.DataFrame(prediction)
+     final_table.columns=['benign','defacement','phishing','malware']
+     st.dataframe(final_table)
+     
+     
+     
     
