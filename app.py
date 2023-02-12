@@ -83,7 +83,7 @@ def letter_count(url):
 
 
 
-model  = load_model(r"C:\Users\dalwa\Desktop\Streamlit URL detection\urlmodel.h5")
+model  = load_model(r"urlmodel.h5")
 
 st.title('Paste the URL below to check whether it is malicious or not🔗')
 url = st.text_input("Input URL😊", "") 
